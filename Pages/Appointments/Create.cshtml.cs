@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,18 +20,18 @@ namespace AppointmentBooking.Pages.Appointments
 
         public IActionResult OnGet()
         {
-        ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id");
+            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id");
             return Page();
         }
 
         [BindProperty]
         public Appointment Appointment { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Appointments == null || Appointment == null)
+            if (!ModelState.IsValid || _context.Appointments == null || Appointment == null)
             {
                 return Page();
             }

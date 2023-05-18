@@ -1,4 +1,4 @@
-@page
+﻿@page
 @model AppointmentBooking.Pages.Appointments.DeleteModel
 
 @{
@@ -29,6 +29,36 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Appointment.Client.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Appointment.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Appointment.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Appointment.Address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Appointment.Address)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Appointment.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Appointment.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Appointment.Phone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Appointment.Phone)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Appointment.Remarks)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Appointment.Remarks)
         </dd>
     </dl>
     

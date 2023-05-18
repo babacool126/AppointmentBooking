@@ -1,51 +1,80 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject IAuthorizationService AuthorizationService
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AppointmentBooking</title>
+    <title>@ViewData["Title"] - Pour un chauffage de qualité !</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AppointmentBooking.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">AppointmentBooking</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+        <div class="p-4 bg-dark text-white text-center">
+            <h1>Chauffage Delmotte </h1>
+            <p>Vous n'aurez plus jamais froid!</p>
+        </div>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">Pour un chauffage de qualité !</a>
+                <ul class="navbar-nav ms-auto me-5 fs-5">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
+                    </li>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-page="/Clients/Index">Clients</a>
                         </li>
+                    }
+                    @if (SignInManager.IsSignedIn(User) && (await AuthorizationService.AuthorizeAsync(User, "AdministratorOnly")).Succeeded)
+                    {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-page="/Admin/Index">Admin Appointments</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Clients/Index">Clients</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Appointments/Index">Appointments</a>
-                        </li>
+                    }
 
-                    </ul>
-                </div>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-page="/Appointments/Create">Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link phone-number" style="color: white;">0681380268</span>
+                    </li>
+                </ul>
+               
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - AppointmentBooking - <a asp-area="" asp-page="/Privacy">Privacy</a>
+    <main role="main" class="container-fluid flex-grow-1">
+        <div class="row min-vh-100">
+            <div class="col">
+                @RenderBody()
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-auto p-4 bg-dark text-white text-center">
+        <div class="mt-3">
+            <a href="#">Mentions légales</a> |
+            <a href="#">Confidentialité</a> |
+            <a href="#">Conditions Générales d'Utilisation</a> |
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <form asp-page="/Account/Logout" method="post" id="logoutForm" class="d-inline">
+                    <button type="submit" class="btn btn-link text-white">Logout</button>
+                </form>
+            }
+            else
+            {
+                <a asp-page="/Account/Login">Login</a>
+            }
         </div>
     </footer>
 
@@ -56,3 +85,5 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
